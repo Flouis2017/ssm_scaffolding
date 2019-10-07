@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flouis.dao.MenuMapper">
+
+	<resultMap id="BaseResultMap" type="com.flouis.entity.Menu">
+		<id column="id" jdbcType="BIGINT" property="id"/>
+		<result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+		<result column="name" jdbcType="VARCHAR" property="name"/>
+		<result column="url" jdbcType="VARCHAR" property="url"/>
+		<result column="icon" jdbcType="VARCHAR" property="icon"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, parent_id, name, url, icon
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from menu
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from menu
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="insertSelective" parameterType="com.flouis.entity.Menu"
+			useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="icon != null">
+				icon,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="parentId != null">
+				#{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				#{icon,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.flouis.entity.Menu">
+		update menu
+		<set>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				icon = #{icon,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="queryListByIdStr" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from menu where id in (${menuIdStr})
+	</select>
+
+	<select id="queryTopMenuList" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from menu where parent_id = 0
+	</select>
+
+	<select id="queryAll" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from menu
+	</select>
+
+</mapper>
