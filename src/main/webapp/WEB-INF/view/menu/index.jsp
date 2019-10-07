@@ -349,7 +349,7 @@
 		//$('#add-form').form('clear');
 		var item = $('#data-datagrid').treegrid('getSelected');
 		if(item == null || item.length == 0){
-			$.messager.alert('信息提示', '请选择要添加菜单的数据！', 'info');
+			$.messager.alert('信息提示', '请先选择二级菜单！', 'info');
 			return;
 		}
 		if(item.parentId == 0){
