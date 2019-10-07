@@ -30,7 +30,7 @@ public class MenuController {
 	}
 
 	/**
-	 * @description 分页获取菜单列表
+	 * @description 获取菜单列表（所有）
 	 */
 	@RequestMapping("/list")
 	@ResponseBody
