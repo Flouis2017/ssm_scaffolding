@@ -54,7 +54,7 @@
 <!-- end of header -->
 
 <!-- begin of sidebar -->
-<div class="wu-sidebar" data-options="region:'west',split:true,border:true,title:'导航菜单'">
+<div class="wu-sidebar" data-options="region:'west',split:true,border:true,title:'导航'">
 	<div class="easyui-accordion" data-options="border:false,fit:true">
 		<c:forEach items="${topMenuList}" var="topMenu">
 		<div title="${topMenu.name }" data-options="iconCls:'${topMenu.icon}'" style="padding:5px;">

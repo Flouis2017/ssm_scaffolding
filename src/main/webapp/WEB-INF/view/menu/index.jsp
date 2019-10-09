@@ -7,13 +7,6 @@
         <div class="wu-toolbar-button">
            <%@include file="../common/menus.jsp"%>
         </div>
-        <%--<div class="wu-toolbar-search">
-            <label>菜单名称：</label>
-			<input id="search-name" class="wu-text" style="width:100px">
-            <a href="#" id="search-btn" class="easyui-linkbutton" iconCls="icon-search">
-				搜索
-			</a>
-        </div>--%>
     </div>
     <!-- End of toolbar -->
     <table id="data-datagrid" class="easyui-treegrid" toolbar="#wu-toolbar"></table>
@@ -48,7 +41,7 @@
             </tr>
             <tr>
                 <td align="right">路径:</td>
-                <td><input type="text" name="url" class="wu-text" /></td>
+                <td><input type="text" name="url" class="wu-text"/></td>
             </tr>
             <tr>
                 <td align="right">菜单图标:</td>
@@ -87,7 +80,7 @@
             </tr>
             <tr>
                 <td align="right">路径:</td>
-                <td><input type="text" id="edit-url" name="url" class="wu-text" /></td>
+                <td><input type="text" id="edit-url" name="url" class="wu-text"/></td>
             </tr>
             <tr>
                 <td align="right">菜单图标:</td>
@@ -113,7 +106,7 @@
                 <td align="right">上级菜单:</td>
                 <td>
                 	<input type="hidden" name="parentId" id="add-menu-parent-id">
-                	<input type="text" readonly="readonly" id="parent-menu" class="wu-text easyui-validatebox" />
+                	<input type="text" readonly="readonly" id="parent-menu" class="wu-text easyui-validatebox"/>
                 </td>
             </tr>
             <tr>
@@ -288,7 +281,6 @@
 			return;
 		}
 		var data = $("#edit-form").serialize();
-		debugger;
 		$.ajax({
 			url: '/menu/save',
 			dataType: 'json',
@@ -314,14 +306,13 @@
 		var item = treegrid.treegrid('getSelected');
 		if ( item == null || item == undefined ){
 			$.messager.alert("信息提示", "请选择删除的记录！", "error");
-			return;
 		} else {
 			var nodes = treegrid.treegrid("getChildren", item.id);
-			var tip = "确定删除吗？";
 			if ( nodes != null && nodes.length > 0){
-				tip = "确定删除吗？（该节点有子菜单，请谨慎操作！）";
+				$.messager.alert("信息提示", "请先删除子节点！", "error");
+				return;
 			}
-			$.messager.confirm('信息提示', tip, function(result){
+			$.messager.confirm('信息提示', "确定删除吗？", function(result){
 				if(result){
 					$.ajax({
 						url: '/menu/delete',

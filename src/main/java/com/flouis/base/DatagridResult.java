@@ -4,8 +4,6 @@ import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
  * @date 20191006
  * @author Flouis
@@ -18,7 +16,7 @@ public class DatagridResult {
 	private Boolean flag;
 	private String msg = "";
 	private Object rows = Lists.newArrayList();
-	private Long total;
+	private Long total = 0L;
 
 	private DatagridResult(Boolean flag, String msg, Object rows, Long total){
 		this.setFlag(flag);
@@ -34,7 +32,10 @@ public class DatagridResult {
 	}
 
 	public static DatagridResult fail(String msg){
-		return new DatagridResult(false, msg, Lists.newArrayList(), null);
+		DatagridResult datagridResult = new DatagridResult();
+		datagridResult.setFlag(false);
+		datagridResult.setMsg(msg);
+		return datagridResult;
 	}
 
 }

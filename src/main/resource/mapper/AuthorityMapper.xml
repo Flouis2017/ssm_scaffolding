@@ -64,4 +64,8 @@
 		WHERE role_id = #{roleId} GROUP BY role_id
 	</select>
 
+	<delete id="deleteByMenuId" parameterType="java.lang.Long">
+		delete from authority where menu_id = #{menuId}
+	</delete>
+
 </mapper>

@@ -14,4 +14,6 @@ public interface AuthorityMapper {
     int updateByPrimaryKeySelective(Authority record);
 
 	String queryMenuIdStrByRoleId(@Param("roleId") Long roleId);
+
+	int deleteByMenuId(@Param("menuId") Long menuId);
 }

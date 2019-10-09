@@ -39,13 +39,12 @@ public class MenuController {
 	}
 
 	/**
-	 * @description 保存菜单（新增/编辑）todo
+	 * @description 保存菜单（新增/编辑）
 	 */
 	@RequestMapping("/save")
 	@ResponseBody
 	public JsonResult save(Menu menu){
-		System.out.println(menu);
-		return JsonResult.fail("Unknown Error!");
+		return this.menuService.save(menu);
 	}
 
 	/**
@@ -54,8 +53,7 @@ public class MenuController {
 	@RequestMapping("/delete")
 	@ResponseBody
 	public JsonResult delete(Long id){
-		System.out.println("The id of menu need to delete is " + id);
-		return JsonResult.fail("Unknown Error!");
+		return this.menuService.delete(id);
 	}
 
 
