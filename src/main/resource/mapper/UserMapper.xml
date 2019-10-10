@@ -114,4 +114,9 @@
 		from `user` where username = #{username}
 	</select>
 
+	<select id="queryListByRoleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from `user` where role_id = #{roleId}
+	</select>
+
 </mapper>

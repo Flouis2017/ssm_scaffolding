@@ -7,7 +7,12 @@ public class CommonTest {
 
 	@Test
 	public void test(){
-		System.out.println(Thread.currentThread().getName());
+		String str = "12,4,14,1,2,";
+		String[] arr = str.split(",");
+		System.out.println(arr.length);
+		for (String x : arr){
+			System.out.print(x + " ");
+		}
 	}
 
 	@Test

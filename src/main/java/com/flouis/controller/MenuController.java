@@ -39,6 +39,15 @@ public class MenuController {
 	}
 
 	/**
+	 * @description 权限设置弹窗需要直接返回List<Menu>
+	 */
+	@RequestMapping("/getAll")
+	@ResponseBody
+	public List<Menu> getAll(){
+		return this.menuService.getAll();
+	}
+
+	/**
 	 * @description 保存菜单（新增/编辑）
 	 */
 	@RequestMapping("/save")
@@ -48,7 +57,7 @@ public class MenuController {
 	}
 
 	/**
-	 * @description 删除菜单 todo
+	 * @description 删除菜单
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody

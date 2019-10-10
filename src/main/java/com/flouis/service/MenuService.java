@@ -57,4 +57,7 @@ public class MenuService {
 		}
 	}
 
+	public List<Menu> getAll() {
+		return this.menuMapper.queryAll();
+	}
 }

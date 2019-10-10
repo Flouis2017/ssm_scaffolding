@@ -30,8 +30,7 @@
             <tr>
                 <td width="60" align="right">角色名称:</td>
                 <td>
-                    <input type="text" name="name" class="wu-text easyui-validatebox"
-                           data-options="required:true, missingMessage:'请填写角色名称'" />
+                    <input type="text" name="name" class="wu-text easyui-validatebox" data-options="required:true"/>
                 </td>
             </tr>
             <tr>
@@ -51,8 +50,7 @@
             <tr>
                 <td width="60" align="right">角色名称:</td>
                 <td>
-                    <input type="text" id="edit-name" name="name" class="wu-text easyui-validatebox"
-                           data-options="required:true, missingMessage:'请填写角色名称'" />
+                    <input type="text" id="edit-name" name="name" class="wu-text easyui-validatebox" data-options="required:true" />
                 </td>
             </tr>
             <tr>
@@ -65,8 +63,8 @@
     </form>
 </div>
 <!-- 选择权限弹窗 -->
-<div id="select-authority-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:220px;height:450px; padding:10px;">
-     <ul id="authority-tree" url="get_all_menu" checkbox="true"></ul>
+<div id="select-authority-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:220px; height:450px; padding:10px;">
+     <ul id="authority-tree" url="/menu/getAll" checkbox="true"></ul>
 </div>
 
 <%@include file="../common/footer.jsp"%>
@@ -84,54 +82,22 @@
 		}
 		var data = $("#add-form").serialize();
 		$.ajax({
-			url: '/role/add',
+			url: '/role/save',
 			dataType: 'json',
 			type: 'post',
 			data: data,
-			success:function(data){
-				if(data.type == 'success'){
-					$.messager.alert('信息提示','添加成功！','info');
+			success:function(res){
+				if(res.flag){
+					$.messager.alert('信息提示', res.msg, 'info');
 					$('#add-dialog').dialog('close');
 					$('#data-datagrid').datagrid('reload');
-				}else{
-					$.messager.alert('信息提示',data.msg,'warning');
+				} else {
+					$.messager.alert('信息提示', res.msg, 'warning');
 				}
 			}
 		});
 	}
 	
-	function selectIcon(){
-		if($("#icons-table").children().length <= 0){
-			$.ajax({
-				url: '/system/getIcons',
-				dataType: 'json',
-				type: 'post',
-				success: function(data){
-					if(data.type == 'success'){
-						var icons = data.content;
-						var table = '';
-						for(var i=0;i<icons.length;i++){
-							var tbody = '<td class="icon-td"><a onclick="selected(this)" href="javascript:void(0)" class="' + icons[i] + '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></td>';
-							if(i == 0){
-								table += '<tr>' + tbody;
-								continue;
-							}
-							if((i+1)%24 === 0){
-								table += tbody + '</tr><tr>';
-								continue;
-							}
-							table += tbody;
-						}
-						table += '</tr>';
-						$("#icons-table").append(table);
-					} else {
-						$.messager.alert('信息提示',data.msg,'warning');
-					}
-				}
-			});
-		}
-	}
-
 	/**
      * @description 编辑角色
      */
@@ -143,17 +109,17 @@
 		}
 		var data = $("#edit-form").serialize();
 		$.ajax({
-			url: '/role/edit',
+			url: '/role/save',
 			dataType: 'json',
 			type: 'post',
 			data: data,
-			success:function(data){
-				if(data.type == 'success'){
-					$.messager.alert('信息提示','修改成功！','info');
+			success:function(res){
+				if (res.flag){
+					$.messager.alert('信息提示', res.msg, 'info');
 					$('#edit-dialog').dialog('close');
 					$('#data-datagrid').datagrid('reload');
-				}else{
-					$.messager.alert('信息提示',data.msg,'warning');
+				} else {
+					$.messager.alert('信息提示', res.msg, 'warning');
 				}
 			}
 		});
@@ -163,20 +129,24 @@
 	 * @description 删除角色
 	 */
 	function remove(){
-		$.messager.confirm('信息提示','确定要删除该记录？', function(result){
-			if(result){
-				var item = $('#data-datagrid').datagrid('getSelected');
+		var item = $('#data-datagrid').datagrid('getSelected');
+		if (item == null || item == undefined){
+			$.messager.alert('信息提示', "请选择删除的角色！", 'error');
+			return;
+		}
+		$.messager.confirm('信息提示','确定删除该角色吗？', function(result){
+			if (result){
 				$.ajax({
-					url:'../../admin/role/delete',
-					dataType:'json',
-					type:'post',
-					data:{id:item.id},
-					success:function(data){
-						if(data.type == 'success'){
-							$.messager.alert('信息提示','删除成功！','info');
+					url: '/role/delete',
+					dataType: 'json',
+					type: 'post',
+					data: { id: item.id },
+					success: function(res){
+						if (res.flag){
+							$.messager.alert('信息提示', res.msg, 'info');
 							$('#data-datagrid').datagrid('reload');
-						}else{
-							$.messager.alert('信息提示',data.msg,'warning');
+						} else {
+							$.messager.alert('信息提示', res.msg, 'warning');
 						}
 					}
 				});
@@ -191,7 +161,7 @@
 		//$('#add-form').form('clear');
 		$('#add-dialog').dialog({
 			closed: false,
-			modal:true,
+			modal: true,
             title: "添加角色信息",
             buttons: [{
                 text: '确定',
@@ -214,13 +184,13 @@
 		//$('#edit-form').form('clear');
 		var item = $('#data-datagrid').datagrid('getSelected');
 		if(item == null || item.length == 0){
-			$.messager.alert('信息提示','请选择要修改的记录！','info');
+			$.messager.alert('信息提示','请选择需要编辑的角色！','info');
 			return;
 		}
 		
 		$('#edit-dialog').dialog({
 			closed: false,
-			modal:true,
+			modal: true,
             title: "修改信息",
             buttons: [{
                 text: '确定',
@@ -241,13 +211,13 @@
         });
 	}
 
-    var existAuthority = null;
+    var roleAuthorities = null;
 	/**
      * @description 某个角色已经拥有的权限
      */
 	function isAdded(row, rows){
-		for(var k=0; k<existAuthority.length; k++){
-			if(existAuthority[k].menuId == row.id && haveParent(rows,row.parentId)){
+		for(var k=0; k<roleAuthorities.length; k++){
+			if (roleAuthorities[k].menuId == row.id && haveParent(rows, row.parentId)){
 				return true;
 			}
 		}
@@ -304,7 +274,7 @@
 				var row = rows[i];
 				if (row.parentId == node.id){
 					var child = {id:row.id,text:row.name};
-					if(isAdded(row, rows)){
+					if (isAdded(row, rows)){
 						child.checked = true;
 					}
 					if (node.children){
@@ -323,11 +293,19 @@
 	/**
      * @description 打开权限选择框
      */
+	function openAuthority(){
+		var item = $('#data-datagrid').datagrid('getSelected');
+		if(item == null || item.length == 0){
+			$.messager.alert('信息提示','请选择角色！','info');
+			return;
+		}
+		selectAuthority(item.id);
+	}
 	function selectAuthority(roleId){
 		$('#select-authority-dialog').dialog({
 			closed: false,
-			modal:true,
-            title: "选择权限信息",
+			modal: true,
+            title: "权限设置",
             buttons: [{
                 text: '确定',
                 iconCls: 'icon-ok',
@@ -341,24 +319,23 @@
                 	for(var i=0;i<checkedParentNodes.length;i++){
                 		ids += checkedParentNodes[i].id + ',';
                 	}
-                	//console.log(ids);
                 	if(ids != ''){
                 		$.ajax({
-                			url:'add_authority',
-                			type:"post",
-                			data:{ids:ids,roleId:roleId},
-                			dataType:'json',
-                			success:function(data){
-                				if(data.type == 'success'){
-                					$.messager.alert('信息提示','权限编辑成！','info');
+                			url: '/role/saveAuthority',
+                			type: "post",
+                			data: { ids: ids, roleId: roleId },
+                			dataType: 'json',
+                			success: function(res){
+                				if (res.flag){
+                					$.messager.alert('信息提示', res.msg, 'info');
                 					$('#select-authority-dialog').dialog('close');
-                				}else{
-                					$.messager.alert('信息提示',data.msg,'info');
+                				} else {
+                					$.messager.alert('信息提示', res.msg, 'warning');
                 				}
                 			}
                 		});
-                	}else{
-                		$.messager.alert('信息提示','请至少选择一条权限！','info');
+                	} else {
+                		$.messager.alert('信息提示', '请至少选择一条权限！', 'info');
                 	}
                 }
             }, {
@@ -371,28 +348,30 @@
             onBeforeOpen:function(){
         		// 首先获取该角色已经拥有的权限
         		$.ajax({
-        			url:'get_role_authority',
-        			data:{roleId:roleId},
-        			type:'post',
-        			dataType:'json',
-        			success:function(data){
-        				existAuthority = data;
+        			url: '/role/getRoleAuthorityList',
+        			data: { roleId: roleId },
+        			type: 'post',
+        			dataType: 'json',
+        			success: function(res){
+        				// console.log(res);
+        				roleAuthorities = res.data;
         				$("#authority-tree").tree({
-                    		loadFilter: function(rows){
-                    			return convert(rows);
+                    		loadFilter: function(roleAuthorities){
+                    			return convert(roleAuthorities);
                     		}
                     	});
         			}
         		});
-            	
             }
         });
 	}
 
-	//搜索按钮监听
+	/**
+	 * @description 搜索
+	 */
 	$("#search-btn").click(function(){
-		$('#data-datagrid').datagrid('reload',{
-			name:$("#search-name").val()
+		$('#data-datagrid').datagrid('load', {
+			name: $.trim($("#search-name").val())
 		});
 	});
 	
@@ -401,44 +380,35 @@
      */
 	$('#data-datagrid').datagrid({
 		url: '/role/list',
-		rownumbers:true,
-		singleSelect:true,
-		pageSize:20,           
-		pagination:true,
-		multiSort:true,
-		fitColumns:true,
-		idField:'id',
-	    treeField:'name',
-		fit:true,
-		columns:[[
-			{
-			    field:'chk',
-                checkbox:true
-            },
+		rownumbers: true,
+		singleSelect: true,
+		pageSize: 10,
+		pagination: true,
+		multiSort: true,
+		fitColumns: true,
+		idField: 'id',
+	    treeField: 'name',
+		fit: true,
+		columns: [[
+			// {
+			//     field:'chk',
+            //     checkbox:true
+            // },
 			{
 			    field:'name',
                 title:'角色名称',
-                width:100,
+                width:50,
+				align: 'center',
                 sortable:true
             },
 			{
 			    field:'remark',
                 title:'角色备注',
                 width:100,
+				align: 'center',
                 sortable:true
-            },
-			{
-			    field:'icon',
-                title:'权限操作',
-                width:100,
-                formatter: function (value,row,index){
-				    var test = '<a class="authority-edit" onclick="selectAuthority('+row.id+')"></a>'
-				    return test;
-			    }
-            },
+            }
 		]],
-		onLoadSuccess:function(data){
-			$('.authority-edit').linkbutton({text:'编辑权限', plain:true, iconCls:'icon-edit'});
-		 }  
+		onLoadSuccess: function(){}
 	});
 </script>

@@ -68,4 +68,13 @@
 		delete from authority where menu_id = #{menuId}
 	</delete>
 
+	<select id="queryListByRoleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from authority where role_id = #{roleId}
+	</select>
+
+	<delete id="deleteByRoleId" parameterType="java.lang.Long">
+		delete from authority where role_id = #{roleId}
+	</delete>
+
 </mapper>

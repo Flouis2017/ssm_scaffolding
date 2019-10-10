@@ -59,4 +59,14 @@
 		where id = #{id,jdbcType=BIGINT}
 	</update>
 
+	<select id="queryList" parameterType="com.flouis.vo.RoleVo" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from `role`
+		<where>
+			<if test="name != null">
+				and name like concat('%', #{name, jdbcType=VARCHAR}, '%')
+			</if>
+		</where>
+	</select>
+
 </mapper>
