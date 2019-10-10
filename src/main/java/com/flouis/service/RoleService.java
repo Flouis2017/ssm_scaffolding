@@ -90,8 +90,9 @@ public class RoleService {
 				}
 				return JsonResult.fail(tip);
 			}
-			// 如果没有绑定任何用户，可以直接删除该角色
+			// 如果没有绑定任何用户，可以直接删除该角色和该角色绑定的权限
 			this.roleMapper.deleteByPrimaryKey(id);
+			this.authorityMapper.deleteByRoleId(id);
 			return JsonResult.success("操作成功");
 		} catch (Exception e){
 			e.printStackTrace();
