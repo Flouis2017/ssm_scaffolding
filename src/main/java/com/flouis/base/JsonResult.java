@@ -38,6 +38,10 @@ public class JsonResult {
 		return new JsonResult(true, successMsg, data);
 	}
 
+	public static JsonResult success(String msg, Object data){
+		return new JsonResult(true, msg, data);
+	}
+
 	public static JsonResult fail(){
 		return new JsonResult(false, failMsg, null);
 	}

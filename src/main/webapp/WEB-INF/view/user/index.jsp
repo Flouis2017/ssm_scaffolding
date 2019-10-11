@@ -29,35 +29,36 @@
     <!-- End of toolbar -->
     <table id="data-datagrid" class="easyui-datagrid" toolbar="#wu-toolbar"></table>
 </div>
-<!-- Begin of easyui-dialog -->
+
+<!-- 添加弹窗 -->
 <div id="add-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:420px; padding:10px;">
 	<form id="add-form" method="post">
         <table>
             <tr>
                 <td width="60" align="right">头像预览:</td>
                 <td valign="middle">
-                	<img id="preview-photo" style="float:left;" src="${ctx}/static/upload/avatar/default_avatar.png" width="100px">
+                	<img id="preview-avatar" style="float:left;" src="${ctx}/static/upload/avatar/default_avatar.png" width="100px">
                 	<a style="float:left;margin-top:40px;" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-upload" onclick="uploadAvatar()" plain="true">上传</a>
                 </td>
             </tr>
             <tr>
                 <td width="60" align="right">头像:</td>
-                <td><input type="text" id="add-photo" name="avatar" value="${ctx}/static/upload/avatar/default_avatar.png" readonly="readonly" class="wu-text " /></td>
+                <td><input type="text" id="add-avatar" name="avatar" value="default_avatar.png" readonly="readonly" class="wu-text " /></td>
             </tr>
             <tr>
                 <td width="60" align="right">用户名:</td>
-                <td><input type="text" name="username" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" name="username" class="wu-text easyui-validatebox" data-options="required:true" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">密码:</td>
-                <td><input type="password" name="password" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写密码'" /></td>
+                <td><input type="password" name="password" class="wu-text easyui-validatebox" data-options="required:true" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">所属角色:</td>
                 <td>
-                	<select name="roleId" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择角色'">
+                	<select name="roleId" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true,editable:false">
 		                <c:forEach items="${roleList}" var="role">
-		                <option value="${role.id}">${role.name}</option>
+		                	<option value="${role.id}">${role.name}</option>
 		                </c:forEach>
 		            </select>
                 </td>
@@ -73,7 +74,7 @@
             </tr>
             <tr>
                 <td width="60" align="right">年龄:</td>
-                <td><input type="text" name="age" class="wu-text easyui-numberbox easyui-validatebox" data-options="required:false,min:1,precision:0"/></td>
+                <td><input type="text" name="age" class="wu-text easyui-numberbox easyui-validatebox" data-options="required:false,min:18,precision:0"/></td>
             </tr>
             <tr>
                 <td width="60" align="right">电子邮箱:</td>
@@ -83,7 +84,7 @@
     </form>
 </div>
 
-<!-- 修改窗口 -->
+<!-- 编辑弹窗 -->
 <div id="edit-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:450px; padding:10px;">
 	<form id="edit-form" method="post">
         <input type="hidden" name="id" id="edit-id">
@@ -91,22 +92,22 @@
             <tr>
                 <td width="60" align="right">头像预览:</td>
                 <td valign="middle">
-                	<img id="edit-preview-photo" style="float:left;" src="${ctx}/static/upload/avatar/default_avatar.png" width="100px">
+                	<img id="edit-preview-avatar" style="float:left;" src="${ctx}/static/upload/avatar/default_avatar.png" width="100px">
                 	<a style="float:left;margin-top:40px;" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-upload" onclick="uploadAvatar()" plain="true">上传</a>
                 </td>
             </tr>
             <tr>
                 <td width="60" align="right">头像:</td>
-                <td><input type="text" id="edit-photo" name="avatar" value="${ctx}/static/upload/avatar/default_avatar.png" readonly="readonly" class="wu-text " /></td>
+                <td><input type="text" id="edit-avatar" name="avatar" value="${ctx}/static/upload/avatar/default_avatar.png" readonly="readonly" class="wu-text " /></td>
             </tr>
             <tr>
                 <td width="60" align="right">用户名:</td>
-                <td><input type="text" id="edit-username" name="username" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" id="edit-username" name="username" class="wu-text easyui-validatebox" data-options="required:true" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">所属角色:</td>
                 <td>
-                	<select id="edit-roleId" name="roleId" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择角色'">
+                	<select id="edit-roleId" name="roleId" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true">
 		                <c:forEach items="${roleList}" var="role">
 		                <option value="${role.id}">${role.name}</option>
 		                </c:forEach>
@@ -124,7 +125,7 @@
             </tr>
             <tr>
                 <td width="60" align="right">年龄:</td>
-                <td><input type="text" id="edit-age" name="age" value="1" class="wu-text easyui-numberbox easyui-validatebox" data-options="required:true,min:1,precision:0, missingMessage:'请填写年龄'" /></td>
+                <td><input type="text" id="edit-age" name="age" value="1" class="wu-text easyui-numberbox easyui-validatebox" data-options="required:false,min:18,precision:0" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">电子邮箱:</td>
@@ -133,14 +134,18 @@
         </table>
     </form>
 </div>
+
 <div id="process-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-upload',title:'正在上传图片'" style="width:450px; padding:10px;">
-<div id="p" class="easyui-progressbar" style="width:400px;" data-options="text:'正在上传中...'"></div>
+	<div id="p" class="easyui-progressbar" style="width:400px;" data-options="text:'正在上传中...'"></div>
 </div>
-<input type="file" id="photo-file" style="display:none;" onchange="upload()">
-<%@include file="../common/footer.jsp"%>
+
+<input type="file" id="avatar-file" style="display:none;" onchange="upload()">
+<%@ include file="../common/footer.jsp"%>
 
 <!-- End of easyui-dialog -->
 <script type="text/javascript">
+	var avatarDir = "${ctx}/static/upload/avatar/";
+
 	//上传图片
 	function start(){
 		var value = $('#p').progressbar('getValue');
@@ -152,13 +157,13 @@
 		}
 	}
 	function upload(){
-		if($("#photo-file").val() == '')return;
+		if($("#avatar-file").val() == '')return;
 		var formData = new FormData();
-		formData.append('photo', document.getElementById('photo-file').files[0]);
+		formData.append('avatar', document.getElementById('avatar-file').files[0]);
 		$("#process-dialog").dialog('open');
-		var interval = setInterval(start,200);
+		var interval = setInterval(start, 200);
 		$.ajax({
-			url: 'upload_photo',
+			url: '/user/uploadAvatar',
 			type: 'post',
 			data: formData,
 			contentType: false,
@@ -167,10 +172,10 @@
 				clearInterval(interval);
 				$("#process-dialog").dialog('close');
 				if (res.flag){
-					$("#preview-photo").attr('src', res.data.filepath);
-					$("#add-photo").val(res.data.filepath);
-					$("#edit-preview-photo").attr('src', res.data.filepath);
-					$("#edit-photo").val(res.data.filepath);
+					$("#preview-avatar").attr('src', avatarDir + res.data);
+					$("#add-avatar").val(res.data);
+					$("#edit-preview-avatar").attr('src', avatarDir + res.data);
+					$("#edit-avatar").val(res.data);
 				} else {
 					$.messager.alert("消息提醒", res.msg, "warning");
 				}
@@ -184,7 +189,7 @@
 	}
 	
 	function uploadAvatar(){
-		$("#photo-file").click();
+		$("#avatar-file").click();
 	}
 
 	/**
@@ -198,7 +203,7 @@
 		}
 		var data = $("#add-form").serialize();
 		$.ajax({
-			url: 'add',
+			url: '/user/save',
 			dataType: 'json',
 			type: 'post',
 			data: data,
@@ -225,7 +230,7 @@
 		}
 		var data = $("#edit-form").serialize();
 		$.ajax({
-			url: 'edit',
+			url: '/user/save',
 			dataType: 'json',
 			type: 'post',
 			data: data,
@@ -245,22 +250,18 @@
 	 * @description 删除记录
 	 */
 	function remove(){
-		$.messager.confirm('信息提示','确定要删除该记录？', function(result){
-			if(result){
-				var item = $('#data-datagrid').datagrid('getSelections');
-				if(item == null || item.length == 0){
-					$.messager.alert('信息提示','请选择要删除的数据！','info');
-					return;
-				}
-				var ids = '';
-				for(var i=0;i<item.length;i++){
-					ids += item[i].id + ',';
-				}
+		var items = $('#data-datagrid').datagrid('getSelections');
+		if (items == null || items.length == 0 || items.length > 1){
+			$.messager.alert('信息提示', '请选择一条记录进行删除！', 'error');
+			return;
+		}
+		$.messager.confirm('信息提示', '确定要删除该记录？', function(result){
+			if (result){
 				$.ajax({
-					url:'delete',
-					dataType:'json',
-					type:'post',
-					data:{ids:ids},
+					url: '/user/delete',
+					dataType: 'json',
+					type: 'post',
+					data: { id: items[0].id },
 					success:function(res){
 						if (res.flag){
 							$.messager.alert('信息提示', res.msg, 'info');
@@ -278,11 +279,11 @@
 	 * @description 打开添加窗口
 	 */
 	function openAdd(){
-		//$('#add-form').form('clear');
+		$('#add-form').form('clear');
 		$('#add-dialog').dialog({
 			closed: false,
 			modal: true,
-            title: "添加用户信息",
+            title: "添加用户",
             buttons: [{
                 text: '确定',
                 iconCls: 'icon-ok',
@@ -302,21 +303,17 @@
 	 * @description 打开修改窗口
 	 */
 	function openEdit(){
-		//$('#edit-form').form('clear');
-		var item = $('#data-datagrid').datagrid('getSelections');
-		if (item == null || item.length == 0){
-			$.messager.alert('信息提示', '请选择需要编辑的记录！', 'info');
-			return;
-		}
-		if (item.length > 1){
+		$('#edit-form').form('clear');
+		var items = $('#data-datagrid').datagrid('getSelections');
+		if (items == null || items.length == 0 || items.length > 1){
 			$.messager.alert('信息提示', '请选择一条记录进行编辑！', 'info');
 			return;
 		}
-		item = item[0];
+		var item = items[0];
 		$('#edit-dialog').dialog({
 			closed: false,
 			modal: true,
-            title: "修改用户信息",
+            title: "编辑用户",
             buttons: [{
                 text: '确定',
                 iconCls: 'icon-ok',
@@ -330,8 +327,8 @@
             }],
             onBeforeOpen:function(){
             	$("#edit-id").val(item.id);
-            	$("#edit-preview-photo").attr('src', item.avatar);
-				$("#edit-photo").val(item.avatar);
+            	$("#edit-preview-avatar").attr('src', avatarDir + item.avatar);
+				$("#edit-avatar").val(item.avatar);
             	$("#edit-username").val(item.username);
             	$("#edit-roleId").combobox('setValue', item.roleId);
             	$("#edit-sex").combobox('setValue', item.gender);
@@ -339,7 +336,7 @@
             	$("#edit-email").val(item.email);
             }
         });
-	}	
+	}
 	
 	
 	/**
@@ -358,7 +355,8 @@
 	 */
 	$('#data-datagrid').datagrid({
 		url: '/user/list',
-		singleSelect: false,
+		// singleSelect: true,
+		// checkOnSelect: false,
 		pageSize: 10,
 		pagination: true,
 		multiSort: false,
@@ -373,7 +371,7 @@
 				return '<img style="margin-top:2px" src="${ctx}/static/upload/avatar/' + value + '" width="30px" />';
 			}},
 			{field:'username',title:'用户名',width:100,align:'center'},
-			{field:'password',title:'密码',width:100,hidden:true},
+			// {field:'password',title:'密码',width:100,hidden:true},
 			{field:'roleId',title:'所属角色',width:50,align:'center',formatter:function(value){
 				var roleList = $("#search-role").combobox('getData');
 				for (var i=0; i<roleList.length; i++){
@@ -387,6 +385,11 @@
 			{field:'age',title:'年龄',align:'center',width:20,sortable:true},
 			{field:'email',title:'电子邮箱',align:'center',width:200}
 		]],
-		onLoadSuccess:function(){}
+		onLoadSuccess: function(data){
+			if (data.total == 0) {
+				var body = $(this).data().datagrid.dc.body2;
+				$('.datagrid-view2 .datagrid-body').find('table tbody').append('<tr><td width="' + body.width() + '" style="height: 35px; text-align: center;">暂无数据</td></tr>');
+			}
+		}
 	});
 </script>
