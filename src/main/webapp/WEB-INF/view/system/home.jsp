@@ -32,25 +32,33 @@
 </head>
 <body class="easyui-layout">
 <div id="loading" style="position:absolute;z-index:1000;top:0px;left:0px;width:100%;height:100%;background:#FFFFFF;text-align :center;padding-top:6%;">
-     <img src="${ctx}/static/images/loading.jpg" width="50%">
+     <img src="${ctx}/static/images/loading.jpg" width="30%">
 </div> 
 <!-- begin of header -->
 <div class="wu-header" data-options="region:'north',border:false,split:true">
 	<div class="wu-header-left">
 		<h1>SSM后台管理系统</h1>
 	</div>
+	<img src="${ctx}/static/upload/avatar/${adminUser.avatar}" style="width:35px;height:35px;cursor:pointer;float:right;margin-top:10px;margin-right:178px;"/>
 	<div class="wu-header-right">
 		<p>
-			<strong class="easyui-tooltip" title="0条未读消息">
+			<strong class="easyui-tooltip">
 				${role.name}：${adminUser.username}
 			</strong>，欢迎您！
 		</p>
 		<p>
-			<a href="#">网站首页</a>|<a style="cursor: pointer;" onclick="modifyPwd()">修改密码</a>|
+			<a style="cursor: pointer;" onclick="goHome()">主页</a>|
+			<a style="cursor: pointer;" onclick="modifyPwd()">修改密码</a>|
 			<a href="/system/logout">安全退出</a>
 		</p>
 	</div>
 </div>
+
+<script type="text/javascript">
+	function goHome() {
+		location.href = "/system/home";
+	}
+</script>
 <!-- end of header -->
 
 <!-- begin of sidebar -->

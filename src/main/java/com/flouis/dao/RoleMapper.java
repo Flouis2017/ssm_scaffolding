@@ -15,4 +15,6 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
 	List<Role> queryList(RoleVo vo);
+
+	List<Role> queryAll();
 }

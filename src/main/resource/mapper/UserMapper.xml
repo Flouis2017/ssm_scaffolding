@@ -119,4 +119,23 @@
 		from `user` where role_id = #{roleId}
 	</select>
 
+	<select id="queryList" parameterType="com.flouis.vo.UserVo" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from `user`
+		<where>
+			<if test="username != null">
+				and username like concat('%', #{username, jdbcType=VARCHAR}, '%'})
+			</if>
+			<if test="roleId != null">
+				and role_id = #{roleId, jdbcType=BIGINT}
+			</if>
+			<if test="gender != null">
+				and gender = #{gender, jdbcType=INTEGER}
+			</if>
+		</where>
+		<if test="sort != null">
+			order by ${sort} ${order}
+		</if>
+	</select>
+
 </mapper>

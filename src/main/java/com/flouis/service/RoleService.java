@@ -100,4 +100,7 @@ public class RoleService {
 		}
 	}
 
+	public List<Role> queryAll() {
+		return this.roleMapper.queryAll();
+	}
 }

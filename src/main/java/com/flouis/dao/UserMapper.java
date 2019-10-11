@@ -1,6 +1,7 @@
 package com.flouis.dao;
 
 import com.flouis.entity.User;
+import com.flouis.vo.UserVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface UserMapper {
 	User queryByUsername(@Param("username") String username);
 
 	List<User> queryListByRoleId(@Param("roleId") Long roleId);
+
+	List<User> queryList(UserVo vo);
 }
