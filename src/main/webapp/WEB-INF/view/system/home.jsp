@@ -39,7 +39,7 @@
 	<div class="wu-header-left">
 		<h1>SSM后台管理系统</h1>
 	</div>
-	<img src="${ctx}/static/upload/avatar/${adminUser.avatar}" style="width:35px;height:35px;cursor:pointer;float:right;margin-top:10px;margin-right:178px;"/>
+	<img src="/picture/show?filename=${adminUser.avatar}" style="width:35px;height:35px;cursor:pointer;float:right;margin-top:10px;margin-right:178px;"/>
 	<div class="wu-header-right">
 		<p>
 			<strong class="easyui-tooltip">

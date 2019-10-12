@@ -98,7 +98,7 @@
             </tr>
             <tr>
                 <td width="60" align="right">头像:</td>
-                <td><input type="text" id="edit-avatar" name="avatar" value="${ctx}/static/upload/avatar/default_avatar.png" readonly="readonly" class="wu-text " /></td>
+                <td><input type="text" id="edit-avatar" name="avatar" value="default_avatar.png" readonly="readonly" class="wu-text " /></td>
             </tr>
             <tr>
                 <td width="60" align="right">用户名:</td>
@@ -140,11 +140,12 @@
 </div>
 
 <input type="file" id="avatar-file" style="display:none;" onchange="upload()">
+
 <%@ include file="../common/footer.jsp"%>
 
 <!-- End of easyui-dialog -->
 <script type="text/javascript">
-	var avatarDir = "${ctx}/static/upload/avatar/";
+	var avatarUrl = "/picture/show?filename=";
 
 	//上传图片
 	function start(){
@@ -172,9 +173,9 @@
 				clearInterval(interval);
 				$("#process-dialog").dialog('close');
 				if (res.flag){
-					$("#preview-avatar").attr('src', avatarDir + res.data);
+					$("#preview-avatar").attr('src', avatarUrl + res.data);
 					$("#add-avatar").val(res.data);
-					$("#edit-preview-avatar").attr('src', avatarDir + res.data);
+					$("#edit-preview-avatar").attr('src', avatarUrl + res.data);
 					$("#edit-avatar").val(res.data);
 				} else {
 					$.messager.alert("消息提醒", res.msg, "warning");
@@ -255,7 +256,7 @@
 			$.messager.alert('信息提示', '请选择一条记录进行删除！', 'error');
 			return;
 		}
-		$.messager.confirm('信息提示', '确定要删除该记录？', function(result){
+		$.messager.confirm('信息提示', '确定要删除该记录？（不可逆，请谨慎操作！）', function(result){
 			if (result){
 				$.ajax({
 					url: '/user/delete',
@@ -295,7 +296,10 @@
                     $('#add-dialog').dialog('close');                    
                 }
             }],
-            onBeforeOpen:function(){}
+            onBeforeOpen:function(){
+				$("#preview-avatar").attr('src', '${ctx}/static/upload/avatar/default_avatar.png');
+				$("#add-avatar").val("default_avatar.png");
+			}
         });
 	}
 	
@@ -327,7 +331,7 @@
             }],
             onBeforeOpen:function(){
             	$("#edit-id").val(item.id);
-            	$("#edit-preview-avatar").attr('src', avatarDir + item.avatar);
+            	$("#edit-preview-avatar").attr('src', avatarUrl + item.avatar);
 				$("#edit-avatar").val(item.avatar);
             	$("#edit-username").val(item.username);
             	$("#edit-roleId").combobox('setValue', item.roleId);
@@ -368,10 +372,9 @@
 			{field:'chk',checkbox:true},
 			{field:'id',title:'Id',width:20,align:'center',sortable:true},
 			{field:'avatar',title:'用户头像',width:100,align:'center',formatter:function(value){
-				return '<img style="margin-top:2px" src="${ctx}/static/upload/avatar/' + value + '" width="30px" />';
+				return '<img style="margin-top:2px" src="' + avatarUrl + value + '" width="30px" />';
 			}},
 			{field:'username',title:'用户名',width:100,align:'center'},
-			// {field:'password',title:'密码',width:100,hidden:true},
 			{field:'roleId',title:'所属角色',width:50,align:'center',formatter:function(value){
 				var roleList = $("#search-role").combobox('getData');
 				for (var i=0; i<roleList.length; i++){

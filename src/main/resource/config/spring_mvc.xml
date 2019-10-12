@@ -59,6 +59,7 @@
 			<mvc:exclude-mapping path="/system/doLogin"/>
 			<mvc:exclude-mapping path="/system/getCpacha"/>
 			<mvc:exclude-mapping path="/static/**"/>
+			<mvc:exclude-mapping path="/picture/show"/>
 			<bean class="com.flouis.interceptor.LoginInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

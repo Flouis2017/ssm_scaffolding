@@ -4,6 +4,7 @@ import com.flouis.base.DatagridResult;
 import com.flouis.base.JsonResult;
 import com.flouis.entity.Role;
 import com.flouis.entity.User;
+import com.flouis.service.PictureService;
 import com.flouis.service.RoleService;
 import com.flouis.service.UserService;
 import com.flouis.vo.UserVo;
@@ -25,6 +26,9 @@ public class UserController {
 
 	@Autowired
 	private RoleService roleService;
+
+	@Autowired
+	private PictureService pictureService;
 
 	/**
 	 * @description 跳转用户管理页
@@ -50,13 +54,12 @@ public class UserController {
 
 	/**
 	 * @description 上传头像
-	 * @param request
 	 * @param avatar
 	 */
 	@RequestMapping("/uploadAvatar")
 	@ResponseBody
-	public JsonResult uploadAvatar(HttpServletRequest request, MultipartFile avatar){
-		return this.userService.uploadAvatar(request, avatar);
+	public JsonResult uploadAvatar(MultipartFile avatar){
+		return this.pictureService.uploadPicture(avatar);
 	}
 
 	/**
