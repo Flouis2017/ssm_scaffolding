@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class CommonTest {
 
-	@Test
+	/*@Test
 	public void test(){
 		String str = "12,4,14,1,2,";
 		String[] arr = str.split(",");
@@ -19,18 +19,18 @@ public class CommonTest {
 		for (String x : arr){
 			System.out.print(x + " ");
 		}
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void md5Test(){
 		String str = "123456";
 		System.out.println(DigestUtils.md5Hex(str)); // e10adc3949ba59abbe56e057f20f883e
 
 		str = "430430";
 		System.out.println(DigestUtils.md5Hex(str)); // 291ad281e640429285d30ff25b66813d
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void httpUtilTest(){
 		String reqUrl = "https://test.a1life.cn/user/getUserByMobile";
 		Map argMap = Maps.newHashMap();
@@ -40,6 +40,6 @@ public class CommonTest {
 
 		jsonRes = JSON.parseObject(HttpUtil.post(reqUrl, argMap));
 		System.out.println("POST Result:\n" + jsonRes);
-	}
+	}*/
 
 }
