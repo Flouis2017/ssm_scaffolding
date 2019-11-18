@@ -47,16 +47,16 @@
             </tr>
             <tr>
                 <td width="60" align="right">用户名:</td>
-                <td><input type="text" name="username" class="wu-text easyui-validatebox" data-options="required:true" /></td>
+                <td><input type="text" name="username" class="wu-text easyui-validatebox" data-options="required:true,missingMessage:'必须项'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">密码:</td>
-                <td><input type="password" name="password" class="wu-text easyui-validatebox" data-options="required:true" /></td>
+                <td><input type="text" name="password" class="wu-text easyui-validatebox" data-options="required:true,missingMessage:'必须项'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">所属角色:</td>
                 <td>
-                	<select name="roleId" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true,editable:false">
+                	<select name="roleId" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true,missingMessage:'必须项',editable:false">
 		                <c:forEach items="${roleList}" var="role">
 		                	<option value="${role.id}">${role.name}</option>
 		                </c:forEach>
@@ -66,7 +66,7 @@
             <tr>
                 <td width="60" align="right">性别:</td>
                 <td>
-                	<select name="gender" class="easyui-combobox" panelHeight="auto" style="width:268px">
+                	<select id="add-gender" name="gender" class="easyui-combobox" panelHeight="auto" style="width:268px">
             			<option value="1">男</option>
             			<option value="2">女</option>
 		            </select>
@@ -102,12 +102,12 @@
             </tr>
             <tr>
                 <td width="60" align="right">用户名:</td>
-                <td><input type="text" id="edit-username" name="username" class="wu-text easyui-validatebox" data-options="required:true" /></td>
+                <td><input type="text" id="edit-username" name="username" class="wu-text easyui-validatebox" data-options="required:true,missingMessage:'必须项'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">所属角色:</td>
                 <td>
-                	<select id="edit-roleId" name="roleId" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true">
+                	<select id="edit-roleId" name="roleId" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true,missingMessage:'必须项'" >
 		                <c:forEach items="${roleList}" var="role">
 		                <option value="${role.id}">${role.name}</option>
 		                </c:forEach>
@@ -280,7 +280,6 @@
 	 * @description 打开添加窗口
 	 */
 	function openAdd(){
-		$('#add-form').form('clear');
 		$('#add-dialog').dialog({
 			closed: false,
 			modal: true,
@@ -293,21 +292,23 @@
                 text: '取消',
                 iconCls: 'icon-cancel',
                 handler: function () {
+					$('#add-form').form('clear');
                     $('#add-dialog').dialog('close');                    
                 }
             }],
             onBeforeOpen:function(){
 				$("#preview-avatar").attr('src', '${ctx}/static/upload/avatar/default_avatar.png');
 				$("#add-avatar").val("default_avatar.png");
+				$("#add-gender").combobox('setValue', 1);
 			}
         });
+
 	}
 	
 	/**
 	 * @description 打开修改窗口
 	 */
 	function openEdit(){
-		$('#edit-form').form('clear');
 		var items = $('#data-datagrid').datagrid('getSelections');
 		if (items == null || items.length == 0 || items.length > 1){
 			$.messager.alert('信息提示', '请选择一条记录进行编辑！', 'info');
@@ -340,6 +341,7 @@
             	$("#edit-email").val(item.email);
             }
         });
+
 	}
 	
 	

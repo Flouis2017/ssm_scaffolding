@@ -31,10 +31,19 @@ public class UserService {
 
 	public JsonResult save(User user) {
 		try {
+			User dbUser = this.userMapper.queryByUsername(user.getUsername());
 			if (user.getId() == null){
+				// 添加之前的重复校验——校验username是否存在
+				if (dbUser != null){
+					return JsonResult.fail("用户名已被占用！");
+				}
 				user.setPassword(DigestUtils.md5Hex(user.getPassword()));
 				this.userMapper.insertSelective(user);
 			} else {
+				// 修改之前的重复校验——校验username是否已经被其他用户使用
+				if (dbUser != null && !dbUser.getId().equals(user.getId())){
+					return JsonResult.fail("用户名已被占用！");
+				}
 				this.userMapper.updateByPrimaryKeySelective(user);
 			}
 			return JsonResult.success("操作成功");
